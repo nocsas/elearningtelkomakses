@@ -8,8 +8,7 @@ Website elerning ini memiliki 3 level user yaitu Admin, Pemberi Materi dan Pener
 Features
 ********
 1. Login	
-
-![1](gambarGit/login.PNG)  
+![1](gambarGit/login.PNG)	 
 
 This repo contains in-development code for future releases. To download the
 latest stable release please visit the `CodeIgniter Downloads
