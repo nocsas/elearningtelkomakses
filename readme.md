@@ -23,4 +23,8 @@ Website elerning ini memiliki 3 level user yaitu Admin, Pemberi Materi dan Pener
 - https://startbootstrap.com/template/sb-admin
 - https://www.apachefriends.org/download.html
 
+## More Information
+- Instagram : @nocsas
+- Telegram  : @mauulagi
+
 ### copyright@nocsas 2020-2021
