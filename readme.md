@@ -1,12 +1,9 @@
-##########################################
-WEBSITE INI DIBUAT UNTUK KEBUTUHAN SKRIPSI
-##########################################
+# WEBSITE INI DIBUAT UNTUK KEBUTUHAN SKRIPSI
 
 Website elerning ini memiliki 3 level user yaitu Admin, Pemberi Materi dan Penerima Materi. Level user ditetapkan berdasarkan jabatannya.
 
-********
-Features
-********
+## Features
+
 1. Login	
 ![1](gambarGit/login.png)	 
 
