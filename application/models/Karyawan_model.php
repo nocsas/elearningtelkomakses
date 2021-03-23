@@ -3,12 +3,14 @@
 class Karyawan_model extends CI_Model
 {
     private $divisi = "divisi";
+    private $tim    = "tim";
     private $_table = "karyawan";
 
     public $nik;
     public $nama_lengkap;
     public $password_login;
     public $id_div;
+    public $id_tim;
     public $jabatan;
     public $alamat;
     public $tempat_lahir;
@@ -60,19 +62,52 @@ class Karyawan_model extends CI_Model
         ];
     }
 
+    /* mengambil semua data tabel karyawan dan menampilkannya */
     public function getAll()
     {
         return $this->db->get($this->_table)->result();
     }
     
+    /* mengambil data dari tabel karyawan berdasarkan nik */
     public function getById($nik)
     {
         return $this->db->get_where($this->_table, ["nik" => $nik])->row();
     }
+    
+    /* mengambil data karyawan dan menampilkannya bedasarkan nik */
+    public function getByNik($nik)
+    {
+        return $this->db->get_where($this->_table, ["nik" => $nik])->result();
+    }
 
+    /* mengambil semua data tabel divisi dan menampilkannya */
     public function getIdDiv()
     {
         return $this->db->get($this->divisi)->result();
+    }
+
+    /* mengambil semua data tabel tim dan menampilkannya */
+    public function getIdTim()
+    {
+        return $this->db->get($this->tim)->result();
+    }
+
+    /* menampilkan karyawan berdasarkan divisinya */
+    public function getKarByIdDiv($id_div)
+    {
+        return $this->db->get_where($this->_table, ["id_div" => $id_div])->result();
+    }
+
+    /* menampilkan karyawan berdasarkan timnya */
+    public function getKarByIdTim($id_tim)
+    {
+        return $this->db->get_where($this->_table, ["id_tim" => $id_tim])->result();
+    }
+
+    /* menampilkan data tim berdasarkan id divisinya */
+    public function getTimByIdDiv($id_div)
+    {
+        return $this->db->get_where($this->tim, ["id_div" => $id_div])->result();
     }
 
     public function save()
@@ -80,8 +115,9 @@ class Karyawan_model extends CI_Model
         $post = $this->input->post();
         $this->nik = $post["nik"];
         $this->nama_lengkap = $post["nama_lengkap"];
-        $this->password_login = $post["password_login"];
+        $this->password_login = md5($post["password_login"]);
         $this->id_div = $post["id_div"];
+        $this->id_tim = $post["id_tim"];
         $this->jabatan = $post["jabatan"];
         $this->alamat = $post["alamat"];
         $this->tempat_lahir = $post["tempat_lahir"];
@@ -98,8 +134,9 @@ class Karyawan_model extends CI_Model
         $post = $this->input->post();
         $this->nik = $post["nik"];
         $this->nama_lengkap = $post["nama_lengkap"];
-        $this->password_login = $post["password_login"];
+        $this->password_login = md5($post["password_login"]);
         $this->id_div = $post["id_div"];
+        $this->id_tim = $post["id_tim"];
         $this->jabatan = $post["jabatan"];
         $this->alamat = $post["alamat"];
         $this->tempat_lahir = $post["tempat_lahir"];
@@ -115,4 +152,17 @@ class Karyawan_model extends CI_Model
     {
         return $this->db->delete($this->_table, array("nik" => $nik));
     }
+
+
+    public function login($nik,$password_login){
+        $post = $this->input->post();
+        $nik = $post["nik"];
+        $password_login = md5($post["password_login"]);
+
+        $this->db->where('nik',$nik);
+        $this->db->where('password_login',$password_login);
+        $result = $this->db->get($this->_table,1);
+        return $result;
+    }
+
 }

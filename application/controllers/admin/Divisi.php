@@ -9,12 +9,17 @@ class Divisi extends CI_Controller
         parent::__construct();
         $this->load->model("divisi_model");
         $this->load->library('form_validation');
+        if($this->session->userdata('logged_in') !== TRUE){
+		redirect('login');
+		}
     }
 
     public function index()
     {
-        $data["divisi"] = $this->divisi_model->getAll();
-        $this->load->view("admin/divisi/divisi", $data);
+        if($this->session->userdata('jabatan')==='Admin'){
+            $data["divisi"] = $this->divisi_model->getAll();
+            $this->load->view("admin/divisi/divisi", $data);
+		}
     }
 
     public function add()
@@ -29,13 +34,14 @@ class Divisi extends CI_Controller
             $divisi->save();
             $this->session->set_flashdata('success_simpan', 'Data berhasil disimpan');
         }
-
-        $this->load->view("admin/divisi/new_divisi");
+        
+        $data["karyawn"] = $this->divisi_model->getByJabatan();
+        $this->load->view("admin/divisi/new_divisi", $data);
     }
 
     public function edit($id_div = null)
     {
-        if (!isset($id_div)) redirect('admin/divisi');
+        if (!isset($id_div)) redirect('divisi');
        
         $divisi = $this->divisi_model;
         $validation = $this->form_validation;
@@ -47,8 +53,8 @@ class Divisi extends CI_Controller
         }
 
         $data["divisi"] = $divisi->getById($id_div);
-        if (!$data["divisi"]) show_404();
         
+        $data["karyawn"] = $this->divisi_model->getByJabatan();
         $this->load->view("admin/divisi/edit_divisi", $data);
     }
 
@@ -58,7 +64,7 @@ class Divisi extends CI_Controller
         
         if ($this->divisi_model->delete($id_div)) {
             $this->session->set_flashdata('success_delete', 'Data berhasil dihapus');
-            redirect(site_url('admin/divisi'));
+            redirect(site_url('divisi'));
         }
     }
 }

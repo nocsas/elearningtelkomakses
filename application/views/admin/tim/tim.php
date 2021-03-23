@@ -13,7 +13,9 @@
                 <main>
                     <div class="container-fluid">
                         <h1 class="mt-4">Manajemen Tim</h1>
-                        <?php $this->load->view("admin/_partials/breadcrumb.php") ?>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Tim</li>
+                        </ol>
 
                         <?php if ($this->session->flashdata('success_delete')): ?>
 				        <div class="alert alert-success" role="alert">
@@ -24,7 +26,7 @@
                         <!-- DataTables -->
 				        <div class="card mb-4">
                             <div class="card-header">
-						        <a href="<?php echo site_url('admin/tim/add') ?>"><i class="fas fa-plus"></i> Add New</a>
+						        <a href="<?php echo site_url('tim/add') ?>"><i class="fas fa-plus"></i> Add New</a>
 					        </div>
 					        <div class="card-body">
 						        <div class="table-responsive">
@@ -35,6 +37,7 @@
 										        <th>Id Tim</th>
                                                 <th>Id Divisi</th>
 										        <th>Nama</th>
+										        <th>Penanggung Jawab</th>
 										        <th>Action</th>
 									        </tr>
 								        </thead>
@@ -53,11 +56,14 @@
 										        <td>
 											        <?php echo $tim->nama ?>
 										        </td>
+										        <td>
+											        <a href="<?php echo site_url('admin/karyawan/getKarByIdTim/'.$tim->id_tim) ?>"><?php echo $tim->pengampu ?></a>
+										        </td>
 										        <td width="250">
 											        <a href="<?php echo site_url('admin/tim/edit/'.$tim->id_tim) ?>"
 											        class="btn btn-small"><i class="fas fa-edit"></i> Edit</a>
-											        <a href="<?php echo site_url('admin/tim/delete/'.$tim->id_tim) ?>"
-											        href="#!" class="btn btn-small text-danger"><i class="fas fa-trash"></i> Hapus</a>
+											        <a onclick="deleteConfirm('<?php echo site_url('admin/tim/delete/'.$tim->id_tim) ?>')"
+    												href="#!" class="btn btn-small text-danger"><i class="fas fa-trash"></i> Hapus</a>
 										        </td>
 									        </tr>
 									        <?php endforeach;?>
@@ -74,5 +80,11 @@
         <?php $this->load->view("admin/_partials/scrolltop.php") ?>
         <?php $this->load->view("admin/_partials/modal.php") ?>
         <?php $this->load->view("admin/_partials/js.php") ?>
+		<script>
+			function deleteConfirm(url){
+				$('#btn-delete').attr('href', url);
+				$('#deleteModal').modal();
+			}
+		</script>
     </body>
 </html>

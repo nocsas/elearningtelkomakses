@@ -13,7 +13,10 @@
                 <main>
                     <div class="container-fluid">
                         <h1 class="mt-4">Manajemen Tim</h1>
-                        <?php $this->load->view("admin/_partials/breadcrumb.php") ?>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Tim</li>
+                            <li class="breadcrumb-item active">Edit Tim</li>
+                        </ol>
 						
                         <?php if ($this->session->flashdata('success_update')): ?>
 				        <div class="alert alert-success" role="alert">
@@ -24,7 +27,7 @@
 				        <!-- Card  -->
 				        <div class="card mb-4">
 					        <div class="card-header">
-                                <a href="<?php echo site_url('admin/tim') ?>"><i class="fas fa-arrow-left"></i> Back</a>
+                                <a href="<?php echo site_url('tim') ?>"><i class="fas fa-arrow-left"></i> Back</a>
 					    </div>
 					    <div class="card-body">
 
@@ -55,13 +58,26 @@
 								        </div>
 							        </div>
 
+									<div class="form-group">
+										<label>Penanggung Jawab</label>
+										<select class="form-control" name="pengampu">
+											<option value="<?php echo $tim->pengampu ?>"><?php echo $tim->pengampu ?></option>
+											<option value=""></option>
+											<?php foreach($karyawan as $karyawan){?>
+											<option value="<?php echo $karyawan->nama_lengkap ?>">
+											<?php echo $karyawan->nama_lengkap ?> 
+											<?php }?>
+											</option>
+										</select>
+									</div>
+
 							    <input class="btn btn-success" type="submit" name="btn" value="Save" />
 						    </form>
 
 					    </div>
 
 					    <div class="card-footer small text-muted">
-						    * required fields
+						    
 					    </div>
 				    </div>
                 </main>

@@ -13,7 +13,10 @@
                 <main>
                     <div class="container-fluid">
                         <h1 class="mt-4">Manajemen Divisi</h1>
-                        <?php $this->load->view("admin/_partials/breadcrumb.php") ?>
+                        <ol class="breadcrumb mb-4">
+							<li class="breadcrumb-item active">Divisi</li>
+							<li class="breadcrumb-item active">New Divisi</li>
+						</ol>
 						
                         <?php if ($this->session->flashdata('success_simpan')): ?>
 				        <div class="alert alert-success" role="alert">
@@ -46,13 +49,25 @@
 								</div>
 							</div>
 
+                            <div class="form-group">
+								<label for="pengampu">Penanggung Jawab</label>
+                    			<select class="form-control" name="pengampu">
+									<option value="" > </option>
+                  					<?php foreach($karyawn as $karyawn){?>
+                  					<option value="<?php echo $karyawn->nama_lengkap ?>">
+									  <?php echo $karyawn->nama_lengkap ?> 
+									</option>
+									<?php }?>
+                  				</select>
+							</div>
+
 							<input class="btn btn-success" type="submit" name="btn" value="Save" />
 						</form>
 
 					</div>
 
 					<div class="card-footer small text-muted">
-						* required fields
+						
 					</div>
 
                 </main>

@@ -3,9 +3,11 @@
 class Divisi_model extends CI_Model
 {
     private $_table = "divisi";
+    private $karyawan = "karyawan";
 
     public $id_div;
     public $nama;
+    public $pengampu;
 
     public function rules()
     {
@@ -17,14 +19,22 @@ class Divisi_model extends CI_Model
         ];
     }
 
+    /* mengambil semua data tabel divisi */
     public function getAll()
     {
         return $this->db->get($this->_table)->result();
     }
     
+    /* mengambil data divisi berdasarkan id divisi */
     public function getById($id_div)
     {
         return $this->db->get_where($this->_table, ["id_div" => $id_div])->row();
+    }
+
+    /* mengambil data dari tabel karyawan dengan jabatan site manager */
+    public function getByJabatan($jabatan = "Site Manager")
+    {
+        return $this->db->get_where($this->karyawan, ["jabatan" => $jabatan])->result();
     }
 
     public function save()
@@ -32,6 +42,7 @@ class Divisi_model extends CI_Model
         $post = $this->input->post();
         $this->id_div = $post["id_div"];
         $this->nama = $post["nama"];
+        $this->pengampu = $post["pengampu"];
         return $this->db->insert($this->_table, $this);
     }
 
@@ -40,6 +51,7 @@ class Divisi_model extends CI_Model
         $post = $this->input->post();
         $this->id_div = $post["id_div"];
         $this->nama = $post["nama"];
+        $this->pengampu = $post["pengampu"];
         return $this->db->update($this->_table, $this, array('id_div' => $post['id_div']));
     }
 

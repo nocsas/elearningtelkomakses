@@ -13,7 +13,10 @@
                 <main>
                     <div class="container-fluid">
                         <h1 class="mt-4">Manajemen Karyawan</h1>
-                        <?php $this->load->view("admin/_partials/breadcrumb.php") ?>
+                        <ol class="breadcrumb mb-4">
+							<li class="breadcrumb-item active">Karyawan</li>
+                            <li class="breadcrumb-item active">New Karyawan</li>
+                        </ol>
 						
                         <?php if ($this->session->flashdata('success_simpan')): ?>
 				        <div class="alert alert-success" role="alert">
@@ -23,11 +26,11 @@
 
 				        <div class="card mb-4">
 					        <div class="card-header">
-						        <a href="<?php echo site_url('admin/karyawan') ?>"><i class="fas fa-arrow-left"></i> Back</a>
+						        <a href="<?php echo site_url('karyawan') ?>"><i class="fas fa-arrow-left"></i> Back</a>
 					        </div>
 					    <div class="card-body">
 
-						<form action="<?php echo site_url('admin/karyawan/add') ?>" method="post" enctype="multipart/form-data" >
+						<form action="<?php echo site_url('karyawan/add') ?>" method="post" enctype="multipart/form-data" >
                         <div class="form-group">
 								<label for="nik">Nik</label>
 								<input class="form-control <?php echo form_error('nik') ? 'is-invalid':'' ?>"
@@ -58,9 +61,22 @@
                             <div class="form-group">
 								<label for="id_div">Divisi</label>
                     			<select class="form-control" name="id_div">
+									<option value=""></option>
                   					<?php foreach($divisi as $divisi){?>
                   					<option value="<?php echo $divisi->id_div ?>">
 									  <?php echo $divisi->id_div ?> 
+									</option>
+									<?php }?>
+                  				</select>
+							</div>
+
+                            <div class="form-group">
+								<label for="id_tim">Tim</label>
+                    			<select class="form-control" name="id_tim">
+									<option value=""></option>
+                  					<?php foreach($tim as $tim){?>
+                  					<option value="<?php echo $tim->id_tim ?>">
+									  <?php echo $tim->id_tim ?> 
 									</option>
 									<?php }?>
                   				</select>
@@ -150,7 +166,7 @@
 					</div>
 
 					<div class="card-footer small text-muted">
-						* required fields
+						
 					</div>
 
                 </main>

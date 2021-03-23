@@ -13,7 +13,9 @@
                 <main>
                     <div class="container-fluid">
                         <h1 class="mt-4">Manajemen Materi</h1>
-                        <?php $this->load->view("admin/_partials/breadcrumb.php") ?>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Materi</li>
+                        </ol>
 
                         <?php if ($this->session->flashdata('success_delete')): ?>
 				        <div class="alert alert-success" role="alert">
@@ -24,7 +26,7 @@
                         <!-- DataTables -->
 				        <div class="card mb-4">
                             <div class="card-header">
-						        <a href="<?php echo site_url('admin/materi/add') ?>"><i class="fas fa-plus"></i> Add New</a>
+						        <a href="<?php echo site_url('materi/add') ?>"><i class="fas fa-plus"></i> Add New</a>
 					        </div>
 					        <div class="card-body">
 						        <div class="table-responsive">
@@ -32,11 +34,10 @@
 								        <thead>
 									        <tr>
                                                 <th>No</th>
-										        <th>Id File</th>
                                                 <th>Judul</th>
 										        <th>Id Divisi</th>
 										        <th>Id Tim</th>
-                                                <th>Nama File</th>
+                                                <th>File</th>
                                                 <th>Tgl Posting</th>
                                                 <th>Pembuat</th>
 										        <th>Action</th>
@@ -49,9 +50,6 @@
                                                     <?php echo $no++ ?>
                                                 </td>
                                                 <td>
-											        <?php echo $materi->id_file ?>
-										        </td>
-                                                <td>
 											        <?php echo $materi->judul ?>
 										        </td>
 										        <td>
@@ -61,7 +59,7 @@
 											        <?php echo $materi->id_tim ?>
 										        </td>
 										        <td>
-											        <?php echo $materi->nama_file ?>
+													<a href="<?php echo base_url('upload/materi/'.$materi->file) ?>"><?php echo $materi->file ?></a>
 										        </td>
 										        <td>
 											        <?php echo $materi->tgl_posting ?>
@@ -71,10 +69,14 @@
 										        </td>
 
 										        <td width="250">
-											        <a href="<?php echo site_url('admin/materi/edit/'.$tim->id_tim) ?>"
+											        <a href="<?php echo site_url('admin/materi/edit/'.$materi->id_file) ?>"
 											        class="btn btn-small"><i class="fas fa-edit"></i> Edit</a>
-											        <a href="<?php echo site_url('admin/materi/delete/'.$tim->id_tim) ?>"
-											        href="#!" class="btn btn-small text-danger"><i class="fas fa-trash"></i> Hapus</a>
+											        
+													<a onclick="deleteConfirm('<?php echo site_url('admin/materi/delete/'.$materi->id_file) ?>')"
+    												href="#!" class="btn btn-small text-danger"><i class="fas fa-trash"></i> Hapus</a>
+													
+													<a href="<?php echo site_url('admin/komentar/diskusi/'.$materi->id_file) ?>" 
+													class="btn btn-small"><i class="fas fa-edit"></i> Diskusi</a>
 										        </td>
 									        </tr>
 									        <?php endforeach;?>
@@ -91,5 +93,11 @@
         <?php $this->load->view("admin/_partials/scrolltop.php") ?>
         <?php $this->load->view("admin/_partials/modal.php") ?>
         <?php $this->load->view("admin/_partials/js.php") ?>
+		<script>
+			function deleteConfirm(url){
+				$('#btn-delete').attr('href', url);
+				$('#deleteModal').modal();
+			}
+		</script>
     </body>
 </html>

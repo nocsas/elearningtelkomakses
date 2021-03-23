@@ -9,12 +9,32 @@ class Materi extends CI_Controller
         parent::__construct();
         $this->load->model("materi_model");
         $this->load->library('form_validation');
+        if($this->session->userdata('logged_in') !== TRUE){
+            redirect('login');
+        }
     }
 
     public function index()
     {
-        $data["materi"] = $this->materi_model->getAll();
-        $this->load->view("admin/materi/materi", $data);
+        if($this->session->userdata('jabatan')==='Admin'){
+            $data["materi"] = $this->materi_model->getAll();
+            $this->load->view("admin/materi/materi", $data);
+
+		}elseif($this->session->userdata('jabatan')==='Manager'){
+            $id_div = $this->session->userdata('id_div');
+            $data["materi"] = $this->materi_model->getMatByIdDiv($id_div);
+            $this->load->view("manager/materi/materi", $data);
+
+        }elseif($this->session->userdata('jabatan')==='Site Manager'){
+            $id_div = $this->session->userdata('id_div');
+            $data["materi"] = $this->materi_model->getMatByIdDiv($id_div);
+            $this->load->view("manager/materi/materi", $data);
+            
+        }else{
+            $id_tim = $this->session->userdata('id_tim');
+            $data["materi"] = $this->materi_model->getMatByIdTim($id_tim);
+            $this->load->view("materi", $data);
+        }
     }
 
     public function add()
@@ -25,22 +45,32 @@ class Materi extends CI_Controller
 
 
         if ($validation->run()) {
-            $tim->save();
+            $materi->save();
             $this->session->set_flashdata('success_simpan', 'Data berhasil disimpan');
         }
 
-        $data["divisi"] = $this->materi_model->getIdDiv();
-        if (!$data["divisi"]) show_404();
-        
-        $data["tim"] = $this->materi_model->getIdTim();
-        if (!$data["tim"]) show_404();
-        $this->load->view("admin/materi/new_materi", $data);
+        if($this->session->userdata('jabatan')==='Admin'){
+            $data["divisi"] = $this->materi_model->getIdDiv();
+            
+            $data["tim"] = $this->materi_model->getIdTim();
+            $this->load->view("admin/materi/new_materi", $data);
+
+        }elseif($this->session->userdata('jabatan')==='Manager'){
+            $id_div = $this->session->userdata('id_div');
+            $data["tim"] = $this->materi_model->getTimByIdDiv($id_div);
+            $this->load->view("manager/materi/new_materi", $data);
+
+        }elseif($this->session->userdata('jabatan')==='Site Manager'){
+            $id_div = $this->session->userdata('id_div');
+            $data["tim"] = $this->materi_model->getTimByIdDiv($id_div);
+            $this->load->view("manager/materi/new_materi", $data);
+        }
 
     }
 
     public function edit($id_file = null)
     {
-        if (!isset($id_file)) redirect('admin/materi');
+        if (!isset($id_file)) redirect('materi');
        
         $materi = $this->materi_model;
         $validation = $this->form_validation;
@@ -51,15 +81,25 @@ class Materi extends CI_Controller
             $this->session->set_flashdata('success_update', 'Data berhasil diupdate');
         }
 
-        $data["materi"] = $tim->getById($id_file);
+        $data["materi"] = $materi->getById($id_file);
         if (!$data["materi"]) show_404();
 
-        $data["divisi"] = $this->materi_model->getIdDiv();
-        if (!$data["divisi"]) show_404();
-        
-        $data["tim"] = $this->materi_model->getIdTim();
-        if (!$data["tim"]) show_404();
-        $this->load->view("admin/materi/edit_materi", $data);
+        if($this->session->userdata('jabatan')==='Admin'){
+            $data["divisi"] = $this->materi_model->getIdDiv();
+            
+            $data["tim"] = $this->materi_model->getIdTim();
+            $this->load->view("admin/materi/edit_materi", $data);
+
+        }elseif($this->session->userdata('jabatan')==='Manager'){
+            $id_div = $this->session->userdata('id_div');
+            $data["tim"] = $this->materi_model->getTimByIdDiv($id_div);
+            $this->load->view("manager/materi/edit_materi", $data);
+
+        }elseif($this->session->userdata('jabatan')==='Site Manager'){
+            $id_div = $this->session->userdata('id_div');
+            $data["tim"] = $this->materi_model->getTimByIdDiv($id_div);
+            $this->load->view("manager/materi/edit_materi", $data);
+        }
     }
 
     public function delete($id_file = null)
